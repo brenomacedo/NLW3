@@ -2,6 +2,7 @@ import React from "react"
 import Sidebar from "../components/Sidebar"
 import '../styles/pages/dashboard.css'
 import { FiMapPin, FiAlertCircle } from 'react-icons/fi'
+import noPending from '../images/nopending.svg'
 import CreatedOrphanages from "../components/CreatedOrphanages"
 import PendingOrphanages from "../components/PendingOrphanages"
 
@@ -33,7 +34,10 @@ const DashboardPending = () => {
           </div>
 
           <div className="dashboard-orphanages">
-              <PendingOrphanages />
+             <div className="no-pending">
+                 <img src={noPending} alt="nenhum"/>
+                 <p>Nenhum no momento</p>
+             </div>
           </div>
       </div>
     </div>

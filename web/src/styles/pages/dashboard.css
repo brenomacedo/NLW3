@@ -62,3 +62,16 @@
 .dashboard-title h2 {
     font-size: 32px;
 }
+
+.no-pending {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    margin-top: 150px;
+}
+
+.no-pending p {
+    margin-top: 15px;
+}
