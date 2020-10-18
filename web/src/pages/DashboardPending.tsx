@@ -11,14 +11,18 @@ const DashboardPending = () => {
   return (
     <div id="page-create-orphanage">
       <Sidebar>
-          <div className="dashboard-marker-icon">
-              <FiMapPin color="#0089A5" size={24} />
+          <div className="dashboard-marker-icon" style={{
+              backgroundColor: '#12AFCB'
+          }}>
+              <FiMapPin color="white" size={24} />
           </div>
-          <div className="dashboard-warning-icon">
+          <div className="dashboard-warning-icon" style={{
+                  backgroundColor: '#FFD666'
+              }}>
               <div className="yellow-circle">
                   <div className="point"></div>
               </div>
-              <FiAlertCircle color="white" size={24} />
+              <FiAlertCircle color="#0089A5" size={24} />
           </div>
       </Sidebar>
 
