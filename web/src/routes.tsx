@@ -7,12 +7,14 @@ import CreateOrphanage from './pages/CreateOrphanage'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
 import RedefinePassword from './pages/RedefinePassword'
+import DashboardCreated from './pages/DashboardCreated'
+import DashboardPending from './pages/DashboardPending'
 
 
 const Routes = () => {
     return (
         <BrowserRouter>
-            <Route path="/" exact component={RedefinePassword} />
+            <Route path="/" exact component={DashboardPending} />
             <Route path="/app" exact component={OrphanagesMap} />
             <Route path="/orphanages/create" exact component={CreateOrphanage} />
             <Route path="/orphanage/:id" exact component={Orphanage} />

@@ -1,6 +1,7 @@
 .homeform-container {
     min-height: 100vh;
     display: flex;
+    justify-content: center;
 }
 
 .homeform-banner {
@@ -145,4 +146,10 @@
 
 .homeform-form-input {
     position: relative;
+}
+
+@media screen and (max-width: 860px) {
+    .homeform-banner {
+        display: none;
+    }
 }

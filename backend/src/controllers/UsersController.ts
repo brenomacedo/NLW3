@@ -49,8 +49,7 @@ export default {
         const userRepository = getRepository(User)
 
         const user = await userRepository.findOne({
-            where: { email },
-            relations: ['orphanages']
+            where: { email }
         })
 
         if(!user) {
@@ -69,9 +68,7 @@ export default {
 
         const userRepository = getRepository(User)
 
-        const user = await userRepository.findOne(req.body.userId, {
-            relations: ['orphanages']
-        })
+        const user = await userRepository.findOne(req.body.userId)
 
         if(!user) {
             return res.status(500).json({ message: "unknown user" })

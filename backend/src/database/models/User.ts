@@ -17,10 +17,6 @@ class User {
     @Column()
     password: string
 
-    @OneToMany(type => Orphanage, orphanage => orphanage.user)
-    @JoinColumn({ name: 'user_id' })
-    orphanages: Orphanage[]
-
     @BeforeInsert()
     async beforeInsert() {
         this.password = await bcrypt.hash(this.password, 10)

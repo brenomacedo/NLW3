@@ -17,9 +17,11 @@ const Landing = () => {
                 </main>
 
                 <div className="location">
-                <strong>Fortaleza</strong>
-                <span>Ceará</span>
+                    <strong>Fortaleza</strong>
+                    <p>Ceará</p>
                 </div>
+                <div className="restrict-access">Acesso restrito</div>
+                
 
                 <Link to="/app" className="enter-app">
                 <FiArrowRight size={26} color='rgba(0,0,0,0.6)' />
