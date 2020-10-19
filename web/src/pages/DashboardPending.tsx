@@ -11,7 +11,7 @@ const DashboardPending = () => {
 
   return (
     <div id="page-create-orphanage">
-      <Sidebar>
+      <Sidebar logout >
           <div className="dashboard-marker-icon" style={{
               backgroundColor: '#12AFCB'
           }}>

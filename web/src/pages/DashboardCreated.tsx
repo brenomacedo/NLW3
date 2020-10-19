@@ -9,7 +9,7 @@ const DashboardCreated = () => {
 
   return (
     <div id="page-create-orphanage">
-      <Sidebar>
+      <Sidebar logout>
           <div className="dashboard-marker-icon">
               <FiMapPin color="#0089A5" size={24} />
           </div>

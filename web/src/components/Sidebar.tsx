@@ -1,12 +1,21 @@
 import React, { FC } from 'react'
 import mapMarkerImg from '../images/marker.svg'
-import { FiArrowLeft } from 'react-icons/fi'
+import { FiArrowLeft, FiLogOut } from 'react-icons/fi'
 import '../styles/components/sidebar.css'
 import { useHistory } from 'react-router-dom'
 
-const Sidebar: FC = ({ children }) => {
+interface SidebarProps {
+    logout?: boolean
+}
 
-    const { goBack } = useHistory()
+const Sidebar: FC<SidebarProps> = ({ children, logout }) => {
+
+    const { push, goBack } = useHistory()
+
+    const handleLogout = () => {
+        localStorage.clear()
+        push('/login')
+    }
 
     return (
         <aside>
@@ -15,9 +24,15 @@ const Sidebar: FC = ({ children }) => {
                 {children}
             </div>
             <footer>
-            <button type="button" onClick={goBack}>
-                <FiArrowLeft size={24} color="#FFF" />
-            </button>
+            {logout ? (
+                <button type="button" onClick={handleLogout}>
+                    <FiLogOut size={24} color="#FFF" />
+                </button>
+            ) : (
+                <button type="button" onClick={goBack}>
+                    <FiArrowLeft size={24} color="#FFF" />
+                </button>
+            )}
             </footer>
         </aside>
     )
