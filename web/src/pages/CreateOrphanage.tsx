@@ -39,7 +39,7 @@ export default function CreateOrphanage() {
     const data = new FormData()
     data.append('name', name)
     data.append('latitude', String(latitude))
-    data.append('longitude', String(latitude))
+    data.append('longitude', String(longitude))
     data.append('about', about)
     data.append('instructions', instructions)
     data.append('opening_hours', opening_hours)

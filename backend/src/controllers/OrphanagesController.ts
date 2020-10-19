@@ -102,5 +102,48 @@ export default {
         })
 
         return res.json(orphanageView.render(orphanages))
+    },
+
+    async updateOrphanage(req: Request, res: Response) {
+        const { id } = req.params
+        const { name, latitude, longitude, about, instructions, opening_hours, open_on_weekends } = req.body
+
+
+        const data = { name, latitude, longitude, about, instructions, opening_hours, open_on_weekends }
+
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),
+            latitude: Yup.number().required(),
+            longitude: Yup.number().required(),
+            about: Yup.string().required(),
+            instructions: Yup.string().required(),
+            opening_hours: Yup.string().required(),
+            open_on_weekends: Yup.boolean().required()
+        })
+
+      
+        await schema.validate(data, {
+            abortEarly: false
+        })
+
+        const orphanagesRepository = getRepository(Orphanage)
+
+        const orphanage = await orphanagesRepository.findOne(id)
+
+        if(!orphanage) {
+            return res.status(500).json({ message: "Orphanage not found" })
+        }
+
+        orphanage.name = name
+        orphanage.latitude = latitude
+        orphanage.longitude = longitude
+        orphanage.about = about
+        orphanage.instructions = instructions
+        orphanage.opening_hours= opening_hours
+        orphanage.open_on_weekends = open_on_weekends
+
+        await orphanagesRepository.save(orphanage)
+
+        return res.status(200).json(orphanage)
     }
 }

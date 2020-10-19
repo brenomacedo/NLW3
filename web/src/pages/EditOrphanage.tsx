@@ -12,6 +12,26 @@ import { useHistory, useLocation } from "react-router-dom"
 
 export default function EditOrphanage() {
 
+
+  interface RouteParams {
+    id: number
+  }
+
+  interface IOrphanage {
+    id: number
+    name: string
+    latitude: number
+    longitude: number
+    about: string
+    instructions: string
+    opening_hours: string
+    open_on_weekends: boolean
+    images: {
+      id: number
+      url: string
+    }[]
+  }
+
   const { push } = useHistory()
 
   const [position, setPosition] = useState({ lat: 0, lng: 0 })
@@ -25,12 +45,29 @@ export default function EditOrphanage() {
   const [images, setImages] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
 
-  const location = useLocation()
+  const [orphanage, setOrphanage] = useState<IOrphanage>()
+
+  const location = useLocation<RouteParams>()
 
   useEffect(() => {
     if(!location.state) {
-      push('/dashboard-created')
+      return push('/dashboard-created')
     }
+
+    api.get<IOrphanage>(`/orphanages/${location.state.id}`).then(res => {
+      setOrphanage(res.data)
+      setName(res.data.name)
+      setAbout(res.data.about)
+      setInstructions(res.data.instructions)
+      setOpeningHours(res.data.opening_hours)
+      setOpenOnWeekends(res.data.open_on_weekends)
+      setPosition({
+        lat: res.data.latitude,
+        lng: res.data.longitude
+      })
+      setPreviewImages(res.data.images.map(e => e.url))
+    })
+    
   }, [])
 
   const handleMapClick = (event: L.LeafletMouseEvent) => {
@@ -44,22 +81,14 @@ export default function EditOrphanage() {
     e.preventDefault()
     const { lat: latitude, lng: longitude } = position
   
-    const data = new FormData()
-    data.append('name', name)
-    data.append('latitude', String(latitude))
-    data.append('longitude', String(latitude))
-    data.append('about', about)
-    data.append('instructions', instructions)
-    data.append('opening_hours', opening_hours)
-    data.append('open_on_weekends', String(open_on_weekends))
-    images.forEach(img => {
-      data.append('images', img)
-    })
+
 
     try {
-      await api.post('/orphanages', data)
+      await api.put(`/orphanages/update/${location.state.id}`, {
+        name, latitude, longitude, about, instructions, opening_hours, open_on_weekends
+      })
       alert('Cadastro realizado com sucesso!')
-      push('/app')
+      push('/dashboard-created')
     } catch {
       alert('Erro ao cadastrar')
     }
@@ -82,6 +111,11 @@ export default function EditOrphanage() {
     const newImages = images.filter((img, index) => index !== removeIndex)
     setImages(newImages)
     setPreviewImages(newPreviewImages)
+  }
+
+
+  if(!orphanage) {
+    return <h1>Carregando...</h1>
   }
 
   return (
@@ -126,17 +160,10 @@ export default function EditOrphanage() {
                 {previewImages.map((img, index) => {
                   return (
                     <div className="img-container">
-                      <div className="close" onClick={() => removeImage(index)}>
-                        <FiX size={20} color='black' />
-                      </div>
                       <img src={img} key={index} alt={name}></img>
                     </div>
                   )
                 })}
-
-                <label htmlFor="image[]" className="new-image">
-                  <FiPlus size={24} color="#15b6d6" />
-                </label>
 
                 <input hidden multiple onChange={handleSelectImages} type="file" id="image[]"/>
               </div>
