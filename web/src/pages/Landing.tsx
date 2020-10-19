@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logoImg from '../images/logo.svg'
 import { FiArrowRight } from 'react-icons/fi'
 import { Link, useHistory } from 'react-router-dom'
 
 import '../styles/global.css'
 import '../styles/pages/landing.css'
+import UserContext from '../contexts/UserContext'
 
 const Landing = () => {
+
+    const User = useContext(UserContext)
 
     const { push } = useHistory()
 
@@ -21,7 +24,7 @@ const Landing = () => {
 
                 <div className="location">
                     <strong>Fortaleza</strong>
-                    <p>Ceará</p>
+                    <p>{User.isAuth ? 'ola' : 'nao ola'}</p>
                 </div>
                 <div onClick={() => push('/login')}
                 className="restrict-access">Acesso restrito</div>

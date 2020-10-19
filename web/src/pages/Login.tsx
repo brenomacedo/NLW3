@@ -26,26 +26,10 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     useEffect(() => {
-
-        const verify = async () => {
-            try {
-                await api.post('/user/verify', {}, {
-                    headers: {
-                        authorization: localStorage.getItem('token')
-                    }
-                })
-
-                User.setIsAuth && User.setIsAuth(true)
-                push('/dashboard-created')
-            } catch {
-                
-            }
+        if(User.isAuth) {
+            push('/dashboard-created')
         }
-
-        if(localStorage.getItem('token')) {
-            verify()
-        }
-    }, [])
+    }, [User.isAuth])
 
     const login = async (e: FormEvent) => {
         e.preventDefault()

@@ -13,6 +13,8 @@ routes.post('/user/auth', UsersController.login)
 routes.post('/user/verify', authMiddleware, UsersController.verifyToken)
 routes.post('/orphanages', upload.array('images'), OrphanagesController.create)
 routes.get('/orphanages', OrphanagesController.index)
+routes.put('/orphanages/approve/:id', OrphanagesController.approveOrphanage)
+routes.get('/orphanages/pending', OrphanagesController.indexPending)
 routes.get('/orphanages/:id', OrphanagesController.show)
 
 export default routes

@@ -63,6 +63,11 @@
     font-size: 32px;
 }
 
+.dashboard-orphanages {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .no-pending {
     display: flex;
     flex-direction: column;

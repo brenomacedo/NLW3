@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm'
 import Orphanage from '../database/models/Orphanage'
 import orphanageView from '../views/orphanages_view'
 import * as Yup from 'yup'
+import orphanages_view from '../views/orphanages_view'
 
 export default {
     async create (req: Request, res: Response) {
@@ -45,20 +46,58 @@ export default {
         return res.status(201).json(orphanage)
     },
     async index(req: Request, res: Response) {
-        const orphanagesRespository = getRepository(Orphanage)
+        const orphanagesRepository = getRepository(Orphanage)
 
-        const orphanages = await orphanagesRespository.find({
+        const orphanages = await orphanagesRepository.find({
+            where: {
+                approved: true
+            },
             relations: ['images']
         })
 
         return res.json(orphanageView.renderMany(orphanages))
     },
+
+    async indexPending(req: Request, res: Response) {
+        const orphanagesRespository = getRepository(Orphanage)
+
+        const orphanages = await orphanagesRespository.find({
+            where: {
+                approved: false
+            },
+            relations: ['images']
+        })
+
+        return res.json(orphanageView.renderMany(orphanages))
+    },
+
+    async approveOrphanage(req: Request, res: Response) {
+
+        const { id } = req.params
+
+        const orphanagesRepository = getRepository(Orphanage)
+
+        const orphanage = await orphanagesRepository.findOne(id, {
+            relations: ['images']
+        })
+
+        if(!orphanage) {
+            return res.status(500).json({ message: "usuário não encontrado!" })
+        }
+
+        orphanage.approved = true
+
+        await orphanagesRepository.save(orphanage)
+
+        return res.status(200).json(orphanages_view.render(orphanage))
+
+    },
     
     async show(req: Request, res: Response) {
         const { id } = req.params
-        const orphanagesRespository = getRepository(Orphanage)
+        const orphanagesRepository = getRepository(Orphanage)
 
-        const orphanages = await orphanagesRespository.findOneOrFail(id, {
+        const orphanages = await orphanagesRepository.findOneOrFail(id, {
             relations: ['images']
         })
 

@@ -3,9 +3,12 @@ import Sidebar from "../components/Sidebar"
 import '../styles/pages/dashboard.css'
 import { FiMapPin, FiAlertCircle } from 'react-icons/fi'
 import CreatedOrphanages from "../components/CreatedOrphanages"
+import { useHistory } from "react-router-dom"
 
 
 const DashboardCreated = () => {
+
+    const { push } = useHistory()
 
   return (
     <div id="page-create-orphanage">
@@ -13,7 +16,7 @@ const DashboardCreated = () => {
           <div className="dashboard-marker-icon">
               <FiMapPin color="#0089A5" size={24} />
           </div>
-          <div className="dashboard-warning-icon">
+          <div onClick={() => push('/dashboard-pending')} className="dashboard-warning-icon">
               <div className="yellow-circle">
                   <div className="point"></div>
               </div>

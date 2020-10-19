@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import mapMarkerImg from '../images/marker.svg'
 import { FiArrowLeft, FiLogOut } from 'react-icons/fi'
 import '../styles/components/sidebar.css'
 import { useHistory } from 'react-router-dom'
+import UserContext from '../contexts/UserContext'
 
 interface SidebarProps {
     logout?: boolean
@@ -10,9 +11,12 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ children, logout }) => {
 
+    const User = useContext(UserContext)
+
     const { push, goBack } = useHistory()
 
     const handleLogout = () => {
+        User.setIsAuth && User.setIsAuth(false)
         localStorage.clear()
         push('/login')
     }

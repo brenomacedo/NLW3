@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react"
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Map, Marker, TileLayer } from 'react-leaflet'
 import L from 'leaflet'
 
@@ -8,7 +8,7 @@ import '../styles/pages/create-orphanage.css'
 import Sidebar from "../components/Sidebar"
 import mapIcon from "../utils/mapIcon"
 import api from "../services/api"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 
 export default function EditOrphanage() {
 
@@ -24,6 +24,14 @@ export default function EditOrphanage() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true)
   const [images, setImages] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if(!location.state) {
+      push('/dashboard-created')
+    }
+  }, [])
 
   const handleMapClick = (event: L.LeafletMouseEvent) => {
     setPosition({

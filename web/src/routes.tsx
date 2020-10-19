@@ -19,6 +19,27 @@ const Routes = () => {
 
     const User = useContext(UserContext)
 
+    useEffect(() => {
+
+        const verify = async () => {
+            try {
+                await api.post('/user/verify', {}, {
+                    headers: {
+                        authorization: localStorage.getItem('token')
+                    }
+                })
+
+                User.setIsAuth && User.setIsAuth(true)
+            } catch {
+                
+            }
+        }
+
+        if(localStorage.getItem('token')) {
+            verify()
+        }
+    }, [])
+
     return (
         <BrowserRouter>
             <Switch>
@@ -33,14 +54,13 @@ const Routes = () => {
 
                 {User.isAuth && (
                     <>
+                    <Route path="/edit-orphanage" exact component={EditOrphanage} />
                     <Route path="/dashboard-created" exact component={DashboardCreated} />
                     <Route path="/dashboard-pending" exact component={DashboardPending} />
-                    <Route path="/edit-orphanage" exact component={EditOrphanage} />
                     <Route path="/verify-orphanage" exact component={VerifyOrphanage} />
                     </>
                 )}
-
-                <Redirect from="*" to="/" />
+                
             </Switch>
         </BrowserRouter>
     )
