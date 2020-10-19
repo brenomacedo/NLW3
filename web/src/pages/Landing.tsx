@@ -1,12 +1,15 @@
 import React from 'react'
 import logoImg from '../images/logo.svg'
 import { FiArrowRight } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import '../styles/global.css'
 import '../styles/pages/landing.css'
 
 const Landing = () => {
+
+    const { push } = useHistory()
+
     return (
         <div id="page-landing">
             <div className="content-wrapper">
@@ -20,7 +23,8 @@ const Landing = () => {
                     <strong>Fortaleza</strong>
                     <p>Ceará</p>
                 </div>
-                <div className="restrict-access">Acesso restrito</div>
+                <div onClick={() => push('/login')}
+                className="restrict-access">Acesso restrito</div>
                 
 
                 <Link to="/app" className="enter-app">

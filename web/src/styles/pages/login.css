@@ -110,6 +110,21 @@
     align-items: center;
     margin-top: 40px;
     cursor: pointer;
+    outline: none;
+}
+
+.homeform-button-disabled {
+    background-color: #bbb;
+    width: 360px;
+    height: 64px;
+    border-radius: 16px;
+    border: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    outline: none;
 }
 
 .homeform-checkbox {
