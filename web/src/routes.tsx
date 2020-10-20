@@ -15,6 +15,7 @@ import UserContext from './contexts/UserContext'
 import api from './services/api'
 import Deleted from './pages/Deleted'
 import Success from './pages/Success'
+import NotFound from './pages/NotFound'
 
 
 const Routes = () => {
@@ -65,6 +66,7 @@ const Routes = () => {
                     </>
                 )}
                 
+                <Route path="/" component={NotFound} />
             </Switch>
         </BrowserRouter>
     )
