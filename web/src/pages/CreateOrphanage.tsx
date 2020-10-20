@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react"
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Map, Marker, TileLayer } from 'react-leaflet'
 import L from 'leaflet'
 
@@ -24,6 +24,20 @@ export default function CreateOrphanage() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true)
   const [images, setImages] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [mapPosition, setMapPosition] = useState({ lat: 0, lng: 0})
+
+  useEffect(() => {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showposition => {
+        setMapPosition({
+          lat: showposition.coords.latitude,
+          lng: showposition.coords.longitude
+        })
+      }, (error => {
+        alert('Erro ao pegar sua localização.')
+      }))
+    }
+  }, [])
 
   const handleMapClick = (event: L.LeafletMouseEvent) => {
     setPosition({
@@ -50,8 +64,7 @@ export default function CreateOrphanage() {
 
     try {
       await api.post('/orphanages', data)
-      alert('Cadastro realizado com sucesso!')
-      push('/app')
+      push('/success')
     } catch {
       alert('Erro ao cadastrar')
     }
@@ -86,7 +99,7 @@ export default function CreateOrphanage() {
             <legend>Dados</legend>
 
             <Map 
-              center={[-27.2092052,-49.6401092]} 
+              center={[mapPosition.lat, mapPosition.lng]} 
               style={{ width: '100%', height: 280 }}
               zoom={15}
               onclick={handleMapClick}

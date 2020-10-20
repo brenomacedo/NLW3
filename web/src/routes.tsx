@@ -52,12 +52,12 @@ const Routes = () => {
                 <Route path="/app" exact component={OrphanagesMap} />
                 <Route path="/orphanages/create" exact component={CreateOrphanage} />
                 <Route path="/orphanage/:id" exact component={Orphanage} />
+                <Route path="/success" exact component={Success} />
 
 
                 {User.isAuth && (
                     <>
                     <Route path="/delete" exact component={Deleted} />
-                    <Route path="/success" exact component={Success} />
                     <Route path="/edit-orphanage" exact component={EditOrphanage} />
                     <Route path="/dashboard-created" exact component={DashboardCreated} />
                     <Route path="/dashboard-pending" exact component={DashboardPending} />
