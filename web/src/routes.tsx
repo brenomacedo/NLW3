@@ -13,6 +13,8 @@ import EditOrphanage from './pages/EditOrphanage'
 import VerifyOrphanage from './pages/VerifyOrphanage'
 import UserContext from './contexts/UserContext'
 import api from './services/api'
+import Deleted from './pages/Deleted'
+import Success from './pages/Success'
 
 
 const Routes = () => {
@@ -54,6 +56,8 @@ const Routes = () => {
 
                 {User.isAuth && (
                     <>
+                    <Route path="/delete" exact component={Deleted} />
+                    <Route path="/success" exact component={Success} />
                     <Route path="/edit-orphanage" exact component={EditOrphanage} />
                     <Route path="/dashboard-created" exact component={DashboardCreated} />
                     <Route path="/dashboard-pending" exact component={DashboardPending} />

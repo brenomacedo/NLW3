@@ -47,7 +47,7 @@ const CreatedOrphanages: FC<CreatedOrphanagesProps> = ({ id, latitude, longitude
                     <FiEdit3 size={20} color="#4D6F80" />
                 </div>
                 <div onClick={() => {
-                  alert('delete')
+                  push('/delete', { id, name })
                 }} className="created-orphanage-button">
                     <FiTrash size={20} color="#4D6F80" />
                 </div>

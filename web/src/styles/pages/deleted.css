@@ -1,0 +1,42 @@
+.final-container {
+    min-height: 100vh;
+    padding: 100px 200px;
+    background-color: #FF669D;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.final-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.final-description h2 {
+    font-size: 80px;
+    font-weight: bolder;
+}
+
+.final-description p {
+    max-width: 350px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.final-button {
+    background-color: #D6487B;
+    border-radius: 16px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 243px;
+    height: 64px;
+    border: 0;
+    outline: none;
+    margin-top: 30px;
+    cursor: pointer;
+}

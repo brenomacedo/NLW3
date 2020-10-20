@@ -145,5 +145,21 @@ export default {
         await orphanagesRepository.save(orphanage)
 
         return res.status(200).json(orphanage)
+    },
+
+    async deleteOrphanage(req: Request, res: Response) {
+        const { id } = req.params
+
+        const orphanagesRepository = getRepository(Orphanage)
+
+        const orphanage = await orphanagesRepository.findOne(id)
+
+        if(!orphanage) {
+            return res.status(500).json({ message: "User not found" })
+        }
+
+        await orphanagesRepository.delete(orphanage)
+
+        return res.status(200).json({ message: "Orphanage successfully deleted!" })
     }
 }
