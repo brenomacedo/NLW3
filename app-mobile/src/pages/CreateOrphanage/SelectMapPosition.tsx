@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, Modal, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Dimensions, Text, Modal, Image, TouchableOpacity, Alert } from 'react-native';
 import cursor from '../../images/cursor.png'
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import MapView, { Marker } from 'react-native-maps';
+import * as ExpoLocation from 'expo-location'
 
 import mapMarkerImg from '../../images/map-marker.png';
 
 export default function SelectMapPosition() {
-  const navigation = useNavigation();
 
+  const [mapPosition, setMapPosition] = useState({ lat: 0, lng: 0 })
+
+  useEffect(() => {
+    const getPosition = async () => {
+      const { status } = await ExpoLocation.getPermissionsAsync()
+      
+      if(status !== 'granted') {
+        return Alert.alert('Erro ao localizar seu dispositivo', 'O aplicativo nao possui permissao')
+      }
+      
+      const location = await ExpoLocation.getCurrentPositionAsync()
+      
+      setPosition({ latitude: location.coords.latitude, longitude: location.coords.longitude })
+    }
+    
+    getPosition()
+  }, [])
+  
+  const navigation = useNavigation();
+  
   function handleNextStep() {
     navigation.navigate('data', { position });
   }
-
+  
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 })
   const [visible, setVisible] = useState(true)
 
@@ -32,8 +52,8 @@ export default function SelectMapPosition() {
       </Modal>
       <MapView 
         initialRegion={{
-          latitude: -27.2092052,
-          longitude: -49.6401092,
+          latitude: mapPosition.lat,
+          longitude: mapPosition.lng,
           latitudeDelta: 0.008,
           longitudeDelta: 0.008,
         }}
