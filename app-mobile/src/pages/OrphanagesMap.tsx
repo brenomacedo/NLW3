@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Modal, Image } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps'
 import mapMarker from '../images/map-marker.png'
 import { Feather } from '@expo/vector-icons'
@@ -19,6 +19,7 @@ const OrphanagesMap = () => {
     }
 
     const [orphanages, setOrphanages] = useState<IOrphanage[]>([])
+
 
     const { navigate } = useNavigation()
 
