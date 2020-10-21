@@ -48,9 +48,9 @@ export default function OrphanageData2() {
 
     try {
       await api.post('/orphanages', data)
-      navigate('map')
-    } catch {
-
+      navigate('success')
+    } catch(e) {
+        console.log(e)
     }
 
   }
@@ -85,9 +85,15 @@ export default function OrphanageData2() {
         </View>
       </View>
 
-      <RectButton style={styles.nextButton} onPress={() => handleCreateOrphanage}>
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
-      </RectButton>
+      {(!instructions || !opening_hours) ? (
+        <RectButton style={styles.nextButtonDisabled} onPress={() => {}}>
+            <Text style={styles.nextButtonText}>Cadastrar</Text>
+        </RectButton>
+      ) : (
+        <RectButton style={styles.nextButton} onPress={handleCreateOrphanage}>
+            <Text style={styles.nextButtonText}>Cadastrar</Text>
+        </RectButton>
+      )}
     </ScrollView>
   )
 }
@@ -214,5 +220,13 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'Nunito_800ExtraBold',
     color: '#aaa'
+  },
+  nextButtonDisabled: {
+    backgroundColor: '#ccc',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 56,
+    marginTop: 32,
   }
 })

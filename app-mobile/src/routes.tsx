@@ -12,6 +12,7 @@ import Onboarding2 from './pages/Onboarding2'
 import AsyncStorage from '@react-native-community/async-storage'
 import { Text } from 'react-native'
 import OrphanageData2 from './pages/CreateOrphanage/OrphanageData2'
+import Success from './pages/Success'
 
 const AppStack = createStackNavigator()
 
@@ -38,6 +39,7 @@ const Routes = () => {
     return (
         <NavigationContainer>
             <AppStack.Navigator initialRouteName={init} screenOptions={{ headerShown: false, cardStyle: { backgroundColor: '#f2f3f5' } }}>
+                <AppStack.Screen name='success' component={Success} />
                 <AppStack.Screen name='onboarding2' component={Onboarding2} />
                 <AppStack.Screen name='onboarding1' component={Onboarding1} />
                 <AppStack.Screen name='map' component={OrphanagesMap} />
