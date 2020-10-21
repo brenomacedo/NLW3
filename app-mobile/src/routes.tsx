@@ -11,6 +11,7 @@ import Onboarding1 from './pages/Onboarding1'
 import Onboarding2 from './pages/Onboarding2'
 import AsyncStorage from '@react-native-community/async-storage'
 import { Text } from 'react-native'
+import OrphanageData2 from './pages/CreateOrphanage/OrphanageData2'
 
 const AppStack = createStackNavigator()
 
@@ -49,6 +50,10 @@ const Routes = () => {
                     header: () => <Header title="Selecione no mapa" />
                 }} />
                 <AppStack.Screen name='data' component={OrphanageData} options={{
+                    headerShown: true,
+                    header: () => <Header title="Informe os detalhes" />
+                }} />
+                <AppStack.Screen name='data2' component={OrphanageData2} options={{
                     headerShown: true,
                     header: () => <Header title="Informe os detalhes" />
                 }} />

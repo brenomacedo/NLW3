@@ -19,42 +19,13 @@ export default function OrphanageData() {
 
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
-  const [instructions, setInstructions] = useState('')
-  const [opening_hours, setOpeningHours] = useState('')
-  const [open_on_weekends, setOpenOnWeekends] = useState(true)
   const [images, setImages] = useState<string[]>([])
 
   const { navigate } = useNavigation()
 
   const { params: { position: { latitude, longitude } } } = useRoute<RouteProp<RouteProps, 'data'>>()
 
-  const handleCreateOrphanage = async () => {
-    const data = new FormData()
 
-    data.append('name', name)
-    data.append('about', about)
-    data.append('latitude', String(latitude))
-    data.append('longitude', String(longitude))
-    data.append('instructions', instructions)
-    data.append('opening_hours', opening_hours)
-    data.append('open_on_weekends', String(open_on_weekends))
-
-    images.forEach((image, index) => {
-      data.append('images', {
-        type: 'image/jpg',
-        uri: image,
-        name: `${index}-${Date.now()}.jpg`
-      } as unknown as Blob)
-    })
-
-    try {
-      await api.post('/orphanages', data)
-      navigate('map')
-    } catch {
-
-    }
-
-  }
 
   const handleSelectImages = async () => {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync()
@@ -81,6 +52,12 @@ export default function OrphanageData() {
     setImages(newImages)
   }
 
+  const handleNext = () => {
+    navigate('data2', {
+      name, about, images, latitude, longitude
+    })
+  }
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 24 }}>
       <Text style={styles.title}>Dados</Text>
@@ -96,22 +73,20 @@ export default function OrphanageData() {
         multiline
       />
 
-      <Text style={styles.label}>Whatsapp</Text>
-      <TextInput
-        style={styles.input}
-      />
-
       <Text style={styles.label}>Fotos</Text>
 
-      <View style={styles.uploadedImagesContainer}>
+      <View>
         {images.map((image, index) => {
           return (
             <View key={image} style={styles.imageContainer}>
               <Image source={{ uri: image }}
               style={styles.uploadedImage}>
               </Image>
+              <View style={styles.imageInfo}>
+                <Text style={styles.imageInfoName}>{image.split('/')[image.split('/').length - 1]}</Text>
+              </View>
               <TouchableOpacity onPress={() => deleteImage(index)} style={styles.deleteImage}>
-                <Feather name='x' size={20} color='black' />
+                <Feather name='x' size={40} color='#39CC83' />
               </TouchableOpacity>
             </View>
           )
@@ -122,30 +97,15 @@ export default function OrphanageData() {
         <Feather name="plus" size={24} color="#15B6D6" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Visitação</Text>
-
-      <Text style={styles.label}>Instruções</Text>
-      <TextInput value={instructions} onChangeText={t => setInstructions(t)}
-        style={[styles.input, { height: 110 }]}
-        multiline
-      />
-
-      <Text style={styles.label}>Horario de visitas</Text>
-      <TextInput value={opening_hours} onChangeText={t => setOpeningHours(t)}
-        style={styles.input}
-      />
-
-      <View style={styles.switchContainer}>
-        <Text style={styles.label}>Atende final de semana?</Text>
-        <Switch value={open_on_weekends} onValueChange={t => setOpenOnWeekends(t)}
-          thumbColor="#fff" 
-          trackColor={{ false: '#ccc', true: '#39CC83' }}
-        />
-      </View>
-
-      <RectButton style={styles.nextButton} onPress={handleCreateOrphanage}>
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
-      </RectButton>
+      {(!name || !about || images.length === 0) ? (
+        <RectButton style={styles.nextButtonDisabled} onPress={() => {}}>
+          <Text style={styles.nextButtonText}>Próximo</Text>
+        </RectButton>
+      ) : (
+        <RectButton style={styles.nextButton} onPress={handleNext}>
+          <Text style={styles.nextButtonText}>Próximo</Text>
+        </RectButton>
+      )}
     </ScrollView>
   )
 }
@@ -198,6 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 32,
+    marginTop: 5
   },
 
   switchContainer: {
@@ -225,26 +186,38 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 20,
-    marginBottom: 32,
     marginRight: 8,
     position: 'relative'
   },
-  uploadedImagesContainer: {
-    flexDirection: 'row'
-  },
   deleteImage: {
-    width: 30,
-    height: 30,
-    backgroundColor: 'white',
-    position: 'absolute',
-    right: 8,
-    top: 0,
-    borderTopRightRadius: 20,
-    borderBottomLeftRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: 20
   },
   imageContainer: {
     position: 'relative',
+    padding: 5,
+    width: '100%',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#39CC83',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5
+  },
+  nextButtonDisabled: {
+    backgroundColor: '#ccc',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 56,
+    marginTop: 32,
+  },
+  imageInfo: {
+      marginLeft: 10
+  },
+  imageInfoName: {
+    color: '#39CC83',
+    width: 150
   }
 })
